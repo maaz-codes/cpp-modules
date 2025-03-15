@@ -4,7 +4,7 @@ This repository contains my solutions and learnings from the C++ modules at 42 A
 
 ## Table of Contents
 
-- [Module 00 - Namespaces, Classes, Member Functions, and Basic Concepts](./module_00)
+- [Module 00 - Namespaces, Classes, Member Functions, and Basic Concepts](./module00)
   
 *More modules will be added as I progress.*
 
