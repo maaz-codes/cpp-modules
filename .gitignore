@@ -1,0 +1,30 @@
+# Compiled binary files
+*.out
+*.o
+*.exe
+*.bin
+*.a
+*.so
+*.dll
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Binder temporary files
+binder/
+
+# System files (Mac/Linux)
+.DS_Store
+.vscode/
+.idea/
+__pycache__/
+*.log
+
+# Conda environment files
+env/
+*.env
+*.conda
+*.yaml
+
+# Git metadata
+.git/
