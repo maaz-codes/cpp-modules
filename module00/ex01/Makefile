@@ -1,9 +1,9 @@
 NAME       = phonebook
 
-SRCS       = main.cpp PhoneBook.cpp Contact.cpp
+SRCS       = main.cpp phonebook.cpp contact.cpp
 
 CXX        = c++
-CXXFLAGS   = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS   = -Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
 
 OBJS       = $(SRCS:.cpp=.o)
 
