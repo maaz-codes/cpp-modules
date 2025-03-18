@@ -9,7 +9,7 @@ Phonebook::Phonebook() {
 void Phonebook::add() {
     Contact contact;
 
-    if (index >= 8)
+    if (index >= MAX_CONTACTS)
         index = 0;
     std::cout << "first name: ";
     if (!Phonebook::ft_getline(contact.f_name))
@@ -33,7 +33,7 @@ void Phonebook::add() {
     if (!Phonebook::ft_getline(contact.secret))
             return ;
     contacts[index] = contact;
-    if (contact_count < 8)
+    if (contact_count < MAX_CONTACTS)
         contact_count++;
     index++;
     std::cout << "Contact SAVED!" << std::endl;
@@ -41,21 +41,15 @@ void Phonebook::add() {
 
 void Phonebook::search() {
     std::string     index;
-    int             i; 
+    int             i = 0;
 
     display_contacts();
     while(true) {
         std::cout << "Enter an index to view details or ctrl + D to go back: ";
         if (!Phonebook::ft_getline(index))
             break ;
-        try {
-            if (!valid_number(index))
-                throw std::invalid_argument("");
-            i = stod(index);
-        } catch (const std::exception&) {
+        if (!valid_number(index) || (!str_to_int(index, i)))
             std::cout << "Enter valid Index" << std::endl;
-            continue ; 
-        }
         if (i <= contact_count && i > 0) {
             display_single_contact(i - 1, contacts);
             break ;
@@ -80,7 +74,7 @@ void Phonebook::display_contacts() {
     << std::endl;
 
     while (i < contact_count) {
-        display_truncated(std::to_string(i + 1));
+        display_truncated(Phonebook::int_to_str(i + 1));
         std::cout << "|";
         display_truncated(contacts[i].f_name);
         std::cout << "|";
@@ -132,4 +126,18 @@ bool Phonebook::ft_getline(std::string &input) {
         return (false);
     }
     return (true);
+}
+
+bool Phonebook::str_to_int(const std::string &str, int &result) {
+    std::stringstream ss(str);
+
+    ss >> result;
+    return (!ss.fail());
+}
+
+std::string Phonebook::int_to_str(int num) {
+    std::stringstream ss;
+
+    ss << num;
+    return (ss.str());
 }
