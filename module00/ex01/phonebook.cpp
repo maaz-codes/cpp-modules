@@ -12,21 +12,26 @@ void Phonebook::add() {
     if (index >= 8)
         index = 0;
     std::cout << "first name: ";
-    std::cin >> contact.f_name;
+    if (!Phonebook::ft_getline(contact.f_name))
+            return ;
     std::cout << "last name: ";
-    std::cin >> contact.l_name;
+    if (!Phonebook::ft_getline(contact.l_name))
+            return ;
     std::cout << "nickname: ";
-    std::cin >> contact.nickname;
+    if (!Phonebook::ft_getline(contact.nickname))
+            return ;
     std::cout << "phn number: ";
     while (true) {
-        std::cin >> contact.number;
+        if (!Phonebook::ft_getline(contact.number))
+            return ;
         if (!valid_number(contact.number)) {
             std::cout << "Enter correctly" << std::endl;
         } else 
             break ;
     }
     std::cout << "Darkest Secret: ";
-    std::cin >> contact.secret;
+    if (!Phonebook::ft_getline(contact.secret))
+            return ;
     contacts[index] = contact;
     if (contact_count < 8)
         contact_count++;
@@ -35,19 +40,23 @@ void Phonebook::add() {
 }
 
 void Phonebook::search() {
-    int     i; 
+    std::string     index;
+    int             i; 
 
     display_contacts();
     while(true) {
-        std::cout << "Enter an index to view details or -1 to go back: ";
-        if (!(std::cin >> i)) {
-            std::cin.clear(); // clear error state
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears the buffer
-            std::cout << "Enter Valid index" << std::endl;
-        }
-        else if (i == -1)
+        std::cout << "Enter an index to view details or ctrl + D to go back: ";
+        if (!Phonebook::ft_getline(index))
             break ;
-        else if (i <= contact_count && i > 0) {
+        try {
+            if (!valid_number(index))
+                throw std::invalid_argument("");
+            i = stod(index);
+        } catch (const std::exception&) {
+            std::cout << "Enter valid Index" << std::endl;
+            continue ; 
+        }
+        if (i <= contact_count && i > 0) {
             display_single_contact(i - 1, contacts);
             break ;
         }
@@ -83,23 +92,12 @@ void Phonebook::display_contacts() {
     }
 }
 
-int Phonebook::valid_number(std::string number) {
-    int i = 0;
+int Phonebook::valid_number(std::string &number) {
+    int num;
 
-    while (number[i]) 
-    {
-        if (number[0] == '+') 
-        {
-            i++;
-            continue ;
-        }
-        if (!(number[i] >= '0' && number[i] <= '9'))
-            return (0);
-        i++;
-    }
-    if (i > 17)
-        std::cout << "Woah! That's not a phone number anymore, but alright." << std::endl;
-    return (1);
+    std::istringstream iss(number);
+    iss >> num;
+    return !(iss.fail() || !iss.eof());
 }
 
 void Phonebook::display_truncated(std::string str) {
@@ -123,4 +121,15 @@ void Phonebook::display_truncated(std::string str) {
     }
     if (str[i])
         std::cout << ".";
+}
+
+bool Phonebook::ft_getline(std::string &input) {
+    if (!(std::getline(std::cin, input))) {
+        std::cin.clear();
+        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        freopen("/dev/tty", "r", stdin);
+        std::cout << "CTRL + D" << std::endl;
+        return (false);
+    }
+    return (true);
 }

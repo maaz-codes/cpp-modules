@@ -10,13 +10,14 @@ int main(void)
     while (true)
     {
         std::cout << "CMD: ";
-        std::cin >> option;
+        if (!Phonebook::ft_getline(option))
+            return (0);
         if (option == "ADD")
             phonebook.add();
         if (option == "SEARCH")
             phonebook.search();
         if (option == "EXIT")
-            break ;
+            return(0) ;
     }
     return (0);
 }

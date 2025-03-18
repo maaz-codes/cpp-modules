@@ -6,4 +6,15 @@
 everything works, and converted into integer.
 
 ### To Add:
-add cin and it's method in Learning Section.
+In Learning Section
+- add cin and it's method.
+
+- add getline() and it's usage.
+
+- add try and catch block's jist + stoi and stod
+
+- istringstream
+
+- static functions
+
+- params passed by reference
